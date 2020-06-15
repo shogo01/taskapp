@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE49F6E12497026A00DA7816 /* InputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE49F6E02497026A00DA7816 /* InputViewController.swift */; };
 		CE4D2ED3248732A100BD5487 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4D2ED2248732A100BD5487 /* AppDelegate.swift */; };
 		CE4D2ED5248732A100BD5487 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4D2ED4248732A100BD5487 /* SceneDelegate.swift */; };
 		CE4D2ED7248732A100BD5487 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4D2ED6248732A100BD5487 /* ViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CE49F6E02497026A00DA7816 /* InputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewController.swift; sourceTree = "<group>"; };
 		CE4D2ECF248732A100BD5487 /* taskapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = taskapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE4D2ED2248732A100BD5487 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE4D2ED4248732A100BD5487 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 				CE4D2ED4248732A100BD5487 /* SceneDelegate.swift */,
 				CE4D2ED6248732A100BD5487 /* ViewController.swift */,
 				CE4D2ED8248732A100BD5487 /* Main.storyboard */,
+				CE49F6E02497026A00DA7816 /* InputViewController.swift */,
 				CE4D2EDB248732A700BD5487 /* Assets.xcassets */,
 				CE4D2EDD248732A700BD5487 /* LaunchScreen.storyboard */,
 				CE4D2EE0248732A700BD5487 /* Info.plist */,
@@ -141,6 +144,7 @@
 				CE4D2ED7248732A100BD5487 /* ViewController.swift in Sources */,
 				CE4D2ED3248732A100BD5487 /* AppDelegate.swift in Sources */,
 				CE4D2ED5248732A100BD5487 /* SceneDelegate.swift in Sources */,
+				CE49F6E12497026A00DA7816 /* InputViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
