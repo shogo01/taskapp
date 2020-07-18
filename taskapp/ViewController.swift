@@ -32,11 +32,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
         
         searchBar.delegate = self
+        searchBar.showsCancelButton = true
     }
     
     // データの数（＝セルの数）を返すメソッド
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return taskArray.count
     }
     
     // 各セルの内容を返すメソッド
@@ -130,5 +131,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         print("サーチバーは動いている")
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        taskArray = try! Realm().objects(Task.self).filter("category == %@", searchBar.text!)
+        tableView.reloadData()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        taskArray = try! Realm().objects(Task.self).sorted(byKeyPath: "date", ascending: true)
+        tableView.reloadData()
     }
 }
