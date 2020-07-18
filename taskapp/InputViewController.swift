@@ -7,17 +7,22 @@
 //
 
 import UIKit
-import RealmSwift    // 追加する
-import UserNotifications    // 追加
+import RealmSwift
+import UserNotifications
 
 class InputViewController: UIViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
+    
     @IBOutlet weak var contentsTextView: UITextView!
+    
     @IBOutlet weak var datePicker: UIDatePicker!
+    
     @IBOutlet weak var categoryTextField: UITextField!
-    let realm = try! Realm()    // 追加する
-    var task: Task!   // 追加する
+    
+    let realm = try! Realm()
+    
+    var task: Task!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,8 +30,6 @@ class InputViewController: UIViewController {
         // 背景をタップしたらdismissKeyboardメソッドを呼ぶように設定する
         let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(dismissKeyboard))
         self.view.addGestureRecognizer(tapGesture)
-        
-        
         
         titleTextField.text = task.title
         contentsTextView.text = task.contents
@@ -46,7 +49,7 @@ class InputViewController: UIViewController {
         super.viewWillDisappear(animated)
     }
     
-    // タスクのローカル通知を登録する --- ここから ---
+    // タスクのローカル通知を登録する
     func setNotification(task: Task) {
         let content = UNMutableNotificationContent()
         // タイトルと内容を設定(中身がない場合メッセージ無しで音だけの通知になるので「(xxなし)」を表示する)
@@ -61,21 +64,21 @@ class InputViewController: UIViewController {
             content.body = task.contents
         }
         content.sound = UNNotificationSound.default
-
+        
         // ローカル通知が発動するtrigger（日付マッチ）を作成
         let calendar = Calendar.current
         let dateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: task.date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-
+        
         // identifier, content, triggerからローカル通知を作成（identifierが同じだとローカル通知を上書き保存）
         let request = UNNotificationRequest(identifier: String(task.id), content: content, trigger: trigger)
-
+        
         // ローカル通知を登録
         let center = UNUserNotificationCenter.current()
         center.add(request) { (error) in
             print(error ?? "ローカル通知登録 OK")  // error が nil ならローカル通知の登録に成功したと表示します。errorが存在すればerrorを表示します。
         }
-
+        
         // 未通知のローカル通知一覧をログ出力
         center.getPendingNotificationRequests { (requests: [UNNotificationRequest]) in
             for request in requests {
@@ -84,13 +87,13 @@ class InputViewController: UIViewController {
                 print("---------------/")
             }
         }
-    } // --- ここまで追加 ---
+    }
     
     @objc func dismissKeyboard(){
         // キーボードを閉じる
         view.endEditing(true)
     }
-    // Do any additional setup after loading the view.
+    
 }
 
 

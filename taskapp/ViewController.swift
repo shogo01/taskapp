@@ -6,17 +6,23 @@
 //  Copyright © 2020 shogo.ujiie. All rights reserved.
 //
 
+
+
+
 import UIKit
-import RealmSwift   // ←追加
-import UserNotifications    // 追加
+
+import RealmSwift
+
+import UserNotifications
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     @IBOutlet weak var tableView: UITableView!
+    
     @IBOutlet weak var searchBar: UISearchBar!
     
     // Realmインスタンスを取得する
-    let realm = try! Realm()  // ←追加
+    let realm = try! Realm()
     
     // DB内のタスクが格納されるリスト。
     // 日付の近い順でソート：昇順
@@ -45,7 +51,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // 再利用可能な cell を得る
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
-        // Cellに値を設定する.  --- ここから ---
+        // Cellに値を設定する
         let task = taskArray[indexPath.row]
         cell.textLabel?.text = task.title
         
@@ -54,7 +60,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let dateString:String = formatter.string(from: task.date)
         cell.detailTextLabel?.text = dateString
-        // --- ここまで追加 ---
         
         
         return cell
@@ -62,6 +67,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // segue で画面遷移する時に呼ばれる
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        
         let inputViewController:InputViewController = segue.destination as! InputViewController
         
         if segue.identifier == "cellSegue" {
@@ -95,7 +101,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // Delete ボタンが押された時に呼ばれるメソッド
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        // --- ここから ---
+        
         if editingStyle == .delete {
             
             // 削除するタスクを取得する
@@ -119,15 +125,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     print("---------------/")
                 }
             }
-        } // --- ここまで変更 ---
-        
+        }
         
         // データベースから削除する
         try! realm.write {
             self.realm.delete(self.taskArray[indexPath.row])
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
-    } // --- ここまで追加 ---
+    }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         print("サーチバーは動いている")
