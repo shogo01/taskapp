@@ -92,6 +92,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // 各セルを選択した時に実行されるメソッド
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "cellSegue",sender: nil) // ←追加する
     }
     
     // セルが削除が可能なことを伝えるメソッド
@@ -100,32 +101,32 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     // Delete ボタンが押された時に呼ばれるメソッド
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+
+         if editingStyle == .delete {
+             // 削除するタスクを取得する
+             let task = self.taskArray[indexPath.row]
+
+             // ローカル通知をキャンセルする
+             let center = UNUserNotificationCenter.current()
+             center.removePendingNotificationRequests(withIdentifiers: [String(task.id)])
+
+             // データベースから削除する
+             try! realm.write {
+                 self.realm.delete(task)
+                 tableView.deleteRows(at: [indexPath], with: .fade)
+             }
+
+             // 未通知のローカル通知一覧をログ出力
+             center.getPendingNotificationRequests { (requests: [UNNotificationRequest]) in
+                 for request in requests {
+                     print("/---------------")
+                     print(request)
+                     print("---------------/")
+                 }
+             }
+         } 
         
-        if editingStyle == .delete {
-            
-            // 削除するタスクを取得する
-            let task = self.taskArray[indexPath.row]
-            
-            // ローカル通知をキャンセルする
-            let center = UNUserNotificationCenter.current()
-            center.removePendingNotificationRequests(withIdentifiers: [String(task.id)])
-            
-            // データベースから削除する
-            try! realm.write {
-                self.realm.delete(task)
-                tableView.deleteRows(at: [indexPath], with: .fade)
-            }
-            
-            // 未通知のローカル通知一覧をログ出力
-            center.getPendingNotificationRequests { (requests: [UNNotificationRequest]) in
-                for request in requests {
-                    print("/---------------")
-                    print(request)
-                    print("---------------/")
-                }
-            }
-        }
         
         // データベースから削除する
         try! realm.write {
